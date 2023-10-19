@@ -1,5 +1,5 @@
+import MyMenu from "@/components/menu/my-menu";
 import { ModeToggle } from "@/components/providers/theme-provider";
-import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -7,10 +7,9 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { useMeQuery } from "@/generated/graphql";
 import { cn } from "@/lib/utils";
-import { Bell, Command as CommandIcon, PenSquare, Search } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
 const NEWS = [
@@ -101,6 +100,7 @@ const TrainingIndustry = [
 ];
 
 const Header: React.FC = () => {
+  const { data: meData, loading: meDataLoading } = useMeQuery();
   const [transparentHeader, setTransparentHeader] = useState(true);
 
   useEffect(() => {
@@ -298,7 +298,8 @@ const Header: React.FC = () => {
               </Link>
             </li>
             <li className="inline-flex ml-4">
-              <ModeToggle
+              <MyMenu
+                me={meData?.me}
                 className={
                   transparentHeader
                     ? "bg-transparent hover:bg-transparent text-slate-100 hover:text-white border-black/10"

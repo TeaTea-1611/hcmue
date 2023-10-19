@@ -1,11 +1,10 @@
-import { Resolver, Mutation, Args, ID, Query } from '@nestjs/graphql';
-import { UsersService } from './users.service';
-import { User } from './entities/user.entity';
-import { CreateUserInput } from './dto/create-user.input';
-import { UserMutationResponse } from './types/user-mutation-response';
-import { GqlAuthGuard } from '../auth/gql-auth.guard';
 import { UseGuards } from '@nestjs/common';
-import { LoggedInGuard } from 'src/auth/logged-in.guard';
+import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { LoggedInGuard } from '../auth/logged-in.guard';
+import { CreateUserInput } from './dto/create-user.input';
+import { User } from './entities/user.entity';
+import { UserMutationResponse } from './types/user-mutation-response';
+import { UsersService } from './users.service';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -16,6 +15,13 @@ export class UsersResolver {
     @Args('createUserInput') createUserInput: CreateUserInput,
   ): Promise<UserMutationResponse> {
     return this.usersService.create(createUserInput);
+  }
+
+  @Mutation(() => UserMutationResponse)
+  async forgotPassword(
+    @Args('username', { type: () => String }) username: string,
+  ): Promise<UserMutationResponse> {
+    return await this.usersService.forgotPassword(username);
   }
 
   @Query(() => User)

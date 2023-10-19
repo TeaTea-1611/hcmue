@@ -85,17 +85,15 @@ const Login: NextPageWithLayout = () => {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-white">Username</FormLabel>
-
+                <FormLabel className="text-white">Tài khoản</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
                       placeholder="example@gmail.com"
                       className="border-none outline-none bg-black/80 !ring-offset-0 pr-12 text-slate-300"
-                      type="email"
                       {...field}
                     />
-                    <AtSign className="absolute w-6 h-6 -translate-y-1/2 cursor-pointer hover:text-primary top-1/2 right-2" />
+                    <AtSign className="absolute w-6 h-6 -translate-y-1/2 cursor-pointer hover:text-primary top-1/2 right-2 text-slate-300" />
                   </div>
                 </FormControl>
                 <FormMessage />
@@ -107,7 +105,7 @@ const Login: NextPageWithLayout = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-white">Password</FormLabel>
+                <FormLabel className="text-white">Mật khẩu</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
@@ -118,7 +116,7 @@ const Login: NextPageWithLayout = () => {
                     />
                     <Fingerprint
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute w-6 h-6 -translate-y-1/2 cursor-pointer hover:text-primary top-1/2 right-2"
+                      className="absolute w-6 h-6 -translate-y-1/2 cursor-pointer text-slate-300 hover:text-primary top-1/2 right-2"
                     />
                   </div>
                 </FormControl>

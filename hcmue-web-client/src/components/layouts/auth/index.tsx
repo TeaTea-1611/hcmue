@@ -1,3 +1,4 @@
+import { useAuth } from "@/utils/useAuth";
 import Head from "next/head";
 import Link from "next/link";
 import React from "react";
@@ -8,6 +9,8 @@ interface Props {
 }
 
 const AuthLayout: React.FC<Props> = ({ children, title }) => {
+  const {} = useAuth();
+
   return (
     <>
       <Head>

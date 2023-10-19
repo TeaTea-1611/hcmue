@@ -1,20 +1,35 @@
+import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
+import * as argon2 from 'argon2';
 import { CreateUserInput } from './dto/create-user.input';
 import { User } from './entities/user.entity';
-import * as argon2 from 'argon2';
 import { UserMutationResponse } from './types/user-mutation-response';
+import { validateCreateUserInput } from './utils/validate';
 
 @Injectable()
 export class UsersService {
+  constructor(private readonly mailerService: MailerService) {}
+
   async create(
     createUserInput: CreateUserInput,
   ): Promise<UserMutationResponse> {
     try {
+      const errors = validateCreateUserInput(createUserInput);
+      if (errors.length)
+        return {
+          success: false,
+          errors,
+        };
+
       const existing = await User.findOne({
         where: { username: createUserInput.username },
         select: { id: true },
       });
-      if (existing) throw new Error('Tài khoản đã tồn tại');
+      if (existing)
+        return {
+          success: false,
+          errors: [{ field: 'username', message: 'Account already exists.' }],
+        };
 
       const hashPassword = await argon2.hash(createUserInput.password);
 
@@ -24,8 +39,33 @@ export class UsersService {
 
       return {
         success: true,
-        message: 'Tài khoản được tạo thành công',
+        message: 'Account created successfully.',
         user,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message,
+      };
+    }
+  }
+
+  async forgotPassword(username: string): Promise<UserMutationResponse> {
+    try {
+      await this.mailerService.sendMail({
+        to: 'phamnam079202038134@gmail.com',
+        from: 'noreply@nestjs.com',
+        subject: 'Testing Nest Mailermodule with template ✔',
+        template: 'forgot-password',
+        context: {
+          code: 'cf1a3f828287',
+          name: 'Nam Pham',
+        },
+      });
+
+      return {
+        success: true,
+        message: 'Please check your email.',
       };
     } catch (error) {
       return {

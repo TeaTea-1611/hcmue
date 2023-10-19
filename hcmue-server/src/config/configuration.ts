@@ -8,4 +8,7 @@ export default () => ({
   redis_db: parseInt(process.env.REDIS_DB),
   redis_username: process.env.REDIS_USERNAME,
   redis_password: process.env.REDIS_PASSWORD,
+
+  email_app: process.env.EMAIL_APP,
+  email_app_password: process.env.EMAIL_APP_PASSWORD,
 });

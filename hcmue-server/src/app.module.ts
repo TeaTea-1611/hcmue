@@ -17,6 +17,11 @@ import { REDIS } from './redis/redis.constant';
 import { UsersModule } from './users/users.module';
 import * as passport from 'passport';
 import { COOKIE_NAME } from './constants';
+import { TrainingIndustryModule } from './training-industry/training-industry.module';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { CoursesModule } from './courses/courses.module';
+import { FacultiesModule } from './faculties/faculties.module';
 
 @Module({
   imports: [
@@ -37,11 +42,32 @@ import { COOKIE_NAME } from './constants';
         return error;
       },
     }),
+    MailerModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        transport: `smtps://${configService.get(
+          'email_app',
+        )}:${configService.get('email_app_password')}@smtp.gmail.com`,
+        defaults: {
+          from: '"HCMUE" <online.hcmue.com>',
+        },
+        template: {
+          dir: process.cwd() + '/templates/',
+          adapter: new HandlebarsAdapter(),
+          options: {
+            strict: true,
+          },
+        },
+      }),
+      inject: [ConfigService],
+    }),
     NewsModule,
     AuthModule,
     StudentsModule,
     LecturersModule,
     UsersModule,
+    TrainingIndustryModule,
+    CoursesModule,
+    FacultiesModule,
   ],
 })
 export class AppModule implements NestModule {

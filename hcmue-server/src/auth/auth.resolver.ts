@@ -18,10 +18,15 @@ export class AuthResolver {
     @Args('loginInput') loginInput: LoginInput,
     @Context() context,
   ): UserMutationResponse {
+    if (context.req.user)
+      return {
+        success: true,
+        message: 'Logged in successfully.',
+        user: context.req.user,
+      };
     return {
-      success: true,
-      message: 'Đăng nhập thành công',
-      user: context.req.user,
+      success: false,
+      message: 'Incorrect username or password.',
     };
   }
 
@@ -49,7 +54,7 @@ export class AuthResolver {
     });
   }
 
-  @Query(() => User)
+  @Query(() => User, { nullable: true })
   @UseGuards(LoggedInGuard)
   me(@Context() context): Promise<User> {
     return context.req.user;
