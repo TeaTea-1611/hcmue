@@ -9,7 +9,7 @@ import {
 import { UserRoleEnumType } from '../types/user';
 
 @ObjectType()
-@Entity({ name: 'users' })
+@Entity({ name: 'user' })
 export class User extends BaseEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn()

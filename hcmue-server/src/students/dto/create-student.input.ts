@@ -1,5 +1,4 @@
-import { Field, InputType, Int, registerEnumType } from '@nestjs/graphql';
-import { MaxLength, MinLength } from 'class-validator';
+import { Field, ID, InputType, Int, registerEnumType } from '@nestjs/graphql';
 import { StudentEnumType, StudyStatusEnumType } from '../types/student';
 
 registerEnumType(StudentEnumType, {
@@ -12,13 +11,9 @@ registerEnumType(StudyStatusEnumType, {
 
 @InputType()
 export class CreateStudentInput {
-  @MinLength(6, { message: 'Tối thiểu 6 ký tự' })
-  @MaxLength(20, { message: 'Tối đa 20 ký tự' })
   @Field()
   id: string;
 
-  @MinLength(6, { message: 'Tối thiểu 6 ký tự' })
-  @MaxLength(100, { message: 'Tối đa 100 ký tự' })
   @Field()
   name: string;
 
@@ -30,4 +25,13 @@ export class CreateStudentInput {
 
   @Field(() => StudyStatusEnumType)
   studyStatus: StudyStatusEnumType;
+
+  @Field(() => ID)
+  facultyId: number;
+
+  @Field(() => ID)
+  courseId: number;
+
+  @Field(() => ID)
+  classId: number;
 }

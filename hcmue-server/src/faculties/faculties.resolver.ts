@@ -1,35 +1,75 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { FacultiesService } from './faculties.service';
-import { Faculty } from './entities/faculty.entity';
+import { Args, ID, Mutation, Resolver } from '@nestjs/graphql';
 import { CreateFacultyInput } from './dto/create-faculty.input';
-import { UpdateFacultyInput } from './dto/update-faculty.input';
-
+import { Faculty } from './entities/faculty.entity';
+import { FacultyMutationResponse } from './types/faculty-mutation-response';
+import { FieldError } from '../types/field-error';
+import { length } from '../utils/validate';
+import { Roles } from '../auth/roles.decorator';
+import { RolesGuard } from '../auth/roles.guard';
+import { UserRoleEnumType } from '../users/types/user';
+import { UseGuards } from '@nestjs/common';
 @Resolver(() => Faculty)
 export class FacultiesResolver {
-  constructor(private readonly facultiesService: FacultiesService) {}
+  @Mutation(() => FacultyMutationResponse)
+  async createFaculty(
+    @Args('createFacultyInput')
+    { name, address, email, numberPhone }: CreateFacultyInput,
+  ): Promise<FacultyMutationResponse> {
+    try {
+      const existing = await Faculty.findOneBy({ name });
+      if (existing) throw new Error('The Faculty already exists.');
 
-  @Mutation(() => Faculty)
-  createFaculty(@Args('createFacultyInput') createFacultyInput: CreateFacultyInput) {
-    return this.facultiesService.create(createFacultyInput);
+      const errors: FieldError[] = [];
+      const errorName = length('name', name, 2, 20);
+
+      if (errorName) errors.push(errorName);
+
+      if (errors.length)
+        return {
+          success: false,
+          errors,
+        };
+
+      const faculty = Faculty.create({ name, address, email, numberPhone });
+
+      await faculty.save();
+
+      return {
+        success: true,
+        message: 'The Faculty has been created successfully.',
+        faculty,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message,
+      };
+    }
   }
 
-  @Query(() => [Faculty], { name: 'faculties' })
-  findAll() {
-    return this.facultiesService.findAll();
-  }
+  @Mutation(() => FacultyMutationResponse)
+  @Roles(UserRoleEnumType.Admin)
+  @UseGuards(RolesGuard)
+  async removeFaculty(
+    @Args('id', { type: () => ID })
+    id: number,
+  ): Promise<FacultyMutationResponse> {
+    try {
+      const faculty = await Faculty.findOneBy({ id });
 
-  @Query(() => Faculty, { name: 'faculty' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.facultiesService.findOne(id);
-  }
+      if (!faculty) throw new Error('The faculty not found.');
 
-  @Mutation(() => Faculty)
-  updateFaculty(@Args('updateFacultyInput') updateFacultyInput: UpdateFacultyInput) {
-    return this.facultiesService.update(updateFacultyInput.id, updateFacultyInput);
-  }
+      await faculty.remove();
 
-  @Mutation(() => Faculty)
-  removeFaculty(@Args('id', { type: () => Int }) id: number) {
-    return this.facultiesService.remove(id);
+      return {
+        success: true,
+        message: 'The faculty has been removed successfully.',
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message,
+      };
+    }
   }
 }

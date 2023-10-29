@@ -7,7 +7,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { New_Types } from './new-types.entity';
+import { News_Types } from './news-types.entity';
 
 @ObjectType()
 @Entity({ name: 'news' })
@@ -16,9 +16,9 @@ export class News extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field(() => New_Types)
-  @ManyToOne(() => New_Types, (nt) => nt.news)
-  type: New_Types;
+  @Field(() => News_Types)
+  @ManyToOne(() => News_Types, (nt) => nt.news)
+  type: News_Types;
 
   @Field()
   @Column()

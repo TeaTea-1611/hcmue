@@ -1,16 +1,8 @@
 import { Module } from '@nestjs/common';
-import {
-  TrainingIndustryResolver,
-  TrainingSystemResolver,
-  TrainingProgramResolver,
-  TrainingTypeResolver,
-} from './training-industry.resolver';
-import {
-  TrainingIndustryService,
-  TrainingProgramService,
-  TrainingSystemService,
-  TrainingTypeService,
-} from './training-industry.service';
+import { TrainingIndustryResolver } from './training-industry.resolver';
+import { TrainingSystemResolver } from './training-system.resolver';
+import { TrainingProgramResolver } from './training-program.resolver';
+import { TrainingTypeResolver } from './training-type.resolver';
 
 @Module({
   providers: [
@@ -18,10 +10,6 @@ import {
     TrainingSystemResolver,
     TrainingProgramResolver,
     TrainingTypeResolver,
-    TrainingIndustryService,
-    TrainingSystemService,
-    TrainingProgramService,
-    TrainingTypeService,
   ],
 })
 export class TrainingIndustryModule {}

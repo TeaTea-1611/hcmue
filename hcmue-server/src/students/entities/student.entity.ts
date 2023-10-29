@@ -4,18 +4,22 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   OneToOne,
   PrimaryColumn,
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { StudentEnumType, StudyStatusEnumType } from '../types/student';
+import { Faculty } from '../../faculties/entities/faculty.entity';
+import { Course } from '../../courses/entities/course.entity';
+import { Class } from '../../classes/entities/class.entity';
 
 @ObjectType()
-@Entity({ name: 'students' })
+@Entity({ name: 'student' })
 export class Student extends BaseEntity {
   @Field()
-  @PrimaryColumn()
-  id: string; // Mã số sinh viên
+  @PrimaryColumn({ length: 20 })
+  id: string;
 
   @Field()
   @Column({ nullable: true })
@@ -28,6 +32,18 @@ export class Student extends BaseEntity {
   @Field()
   @Column({ length: 100 })
   name: string; // Họ và tên
+
+  @Field(() => Faculty)
+  @ManyToOne(() => Faculty)
+  faculty: Faculty;
+
+  @Field(() => Course)
+  @ManyToOne(() => Course)
+  course: Course;
+
+  @Field(() => Class)
+  @ManyToOne(() => Class)
+  class: Class;
 
   @Field({ nullable: true })
   @Column({ length: 10, nullable: true })

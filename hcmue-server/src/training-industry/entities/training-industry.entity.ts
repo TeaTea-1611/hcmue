@@ -39,10 +39,11 @@ export class TrainingIndustry extends BaseEntity {
 
   @Field(() => [Course])
   @ManyToMany(() => Course)
-  @JoinTable({ name: 'training_industry_course' })
+  @JoinTable({ name: 'training_industry_to_course' })
   courses: Course[];
 
-  @Field(() => TrainingProgram)
-  @ManyToOne(() => TrainingProgram)
-  trainingProgram: TrainingProgram;
+  @Field(() => [TrainingProgram])
+  @ManyToMany(() => TrainingProgram)
+  @JoinTable({ name: 'training_industry_to_program' })
+  trainingPrograms: TrainingProgram[];
 }

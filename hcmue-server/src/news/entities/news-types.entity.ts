@@ -9,8 +9,8 @@ import {
 import { News } from './news.entity';
 
 @ObjectType()
-@Entity({ name: 'new_types' })
-export class New_Types extends BaseEntity {
+@Entity({ name: 'news_type' })
+export class News_Types extends BaseEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn()
   id: number;

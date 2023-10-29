@@ -1,6 +1,11 @@
 export default () => ({
   port: process.env.PORT || 4000,
 
+  // pg database
+  db_username: process.env.DB_USERNAME,
+  db_password: process.env.DB_PASSWORD,
+  db_name: process.env.DB_NAME,
+
   // redis
   session_secret: process.env.SESSION_SECRET,
   redis_host: process.env.REDIS_HOST,

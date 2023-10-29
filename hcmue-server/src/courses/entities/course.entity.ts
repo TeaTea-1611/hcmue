@@ -8,8 +8,8 @@ import {
 } from 'typeorm';
 
 @ObjectType()
+@Entity({ name: 'course' })
 @Unique('course_unique', ['name', 'year'])
-@Entity({ name: 'courses' })
 export class Course extends BaseEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn()

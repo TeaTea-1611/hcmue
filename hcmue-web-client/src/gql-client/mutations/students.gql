@@ -1,0 +1,35 @@
+mutation createStudent($createStudentInput: CreateStudentInput!) {
+  createStudent(createStudentInput: $createStudentInput) {
+    message
+    success
+    student {
+      address
+      area
+      country
+      createdAt
+      district
+      dob
+      email
+      ethnicity
+      fatherName
+      gender
+      id
+      identification
+      motherName
+      name
+      note
+      numberPhone
+      permanentAddress
+      pob
+      priority
+      province
+      relativeAddress
+      relativeName
+      relativeNumberPhone
+      religion
+      studentType
+      studyStatus
+      union
+    }
+  }
+}

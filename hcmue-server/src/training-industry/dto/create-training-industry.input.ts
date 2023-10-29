@@ -1,19 +1,19 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { Field, ID, InputType } from '@nestjs/graphql';
 
 @InputType()
-class Input {
+export class CreateTrainingIndustryInput {
   @Field()
   name: string;
+
+  @Field(() => ID)
+  trainingSystemId: number;
+
+  @Field(() => [ID])
+  trainingProgramIds: number[];
+
+  @Field(() => ID)
+  trainingTypeId: number;
+
+  @Field(() => [ID])
+  courseIds: number[];
 }
-
-@InputType()
-export class CreateTrainingIndustryInput extends Input {}
-
-@InputType()
-export class CreateTrainingProgramInput extends Input {}
-
-@InputType()
-export class CreateTrainingTypeInput extends Input {}
-
-@InputType()
-export class CreateTrainingSystemInput extends Input {}

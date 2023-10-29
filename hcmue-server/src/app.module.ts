@@ -22,6 +22,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { CoursesModule } from './courses/courses.module';
 import { FacultiesModule } from './faculties/faculties.module';
+import { ClassesModule } from './classes/classes.module';
 
 @Module({
   imports: [
@@ -68,6 +69,7 @@ import { FacultiesModule } from './faculties/faculties.module';
     TrainingIndustryModule,
     CoursesModule,
     FacultiesModule,
+    ClassesModule,
   ],
 })
 export class AppModule implements NestModule {
