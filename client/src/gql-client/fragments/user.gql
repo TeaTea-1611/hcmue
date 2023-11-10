@@ -1,0 +1,9 @@
+fragment userInfo on User {
+  id
+  username
+  role {
+    id
+    name
+  }
+  createdAt
+}

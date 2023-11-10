@@ -1,0 +1,29 @@
+fragment trainingFieldInfo on TrainingField {
+  id
+  name
+  trainingSystem {
+    id
+    name
+  }
+  trainingType {
+    id
+    name
+  }
+  courses {
+    ...courseInfo
+  }
+}
+
+fragment facultyInfo on Faculty {
+  id
+  name
+  address
+  email
+  numberPhone
+  classes {
+    ...classInfo
+  }
+  trainingFields {
+    ...trainingFieldInfo
+  }
+}

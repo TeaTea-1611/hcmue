@@ -1,0 +1,270 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  id        String     @id @db.VarChar(5)
+  name      String     @db.VarChar(50)
+  positions Position[]
+  users     User[]
+}
+
+model Position {
+  id        String     @id @db.VarChar(10)
+  name      String     @db.VarChar(50)
+  role      Role       @relation(fields: [roleId], references: [id])
+  roleId    String
+  students  Student[]
+  lecturers Lecturer[]
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  username     String    @unique @db.VarChar(20)
+  password     String
+  createdAt    DateTime  @default(now())
+  roleId       String
+  tokenVersion Int       @default(0)
+  lecturer     Lecturer?
+  student      Student?
+  role         Role      @relation(fields: [roleId], references: [id])
+
+  @@index([username])
+}
+
+model Student {
+  id                    String                  @id @db.VarChar(20)
+  name                  String                  @db.VarChar(100)
+  createdAt             DateTime                @default(now())
+  studentType           String                  @db.VarChar(50)
+  studyStatus           String                  @db.VarChar(50)
+  gender                Int
+  dob                   String                  @db.VarChar(10)
+  pob                   String                  @db.VarChar(100)
+  ethnicity             String                  @db.VarChar(100)
+  identification        String                  @db.VarChar(20)
+  religion              String
+  area                  String                  @db.VarChar(50)
+  priority              Boolean                 @default(false)
+  province              String                  @db.VarChar(50)
+  district              String                  @db.VarChar(50)
+  country               String                  @db.VarChar(50)
+  permanentAddress      String                  @db.VarChar()
+  numberPhone           String                  @db.VarChar(15)
+  email                 String                  @db.VarChar()
+  address               String                  @db.VarChar()
+  fatherName            String                  @db.VarChar(100)
+  motherName            String                  @db.VarChar(100)
+  relativeName          String                  @db.VarChar(100)
+  relativeNumberPhone   String                  @db.VarChar(15)
+  relativeAddress       String                  @db.VarChar()
+  class                 Class                   @relation(fields: [classId], references: [id])
+  classId               Int
+  position              Position?               @relation(fields: [positionId], references: [id])
+  positionId            String?
+  user                  User                    @relation(fields: [userId], references: [id])
+  userId                Int                     @unique
+  ttudentToModuleGrades StudentToModuleGrades[]
+  registrations         Registration[]
+  tuitionFees           TuitionFee[]
+  course                Course                  @relation(fields: [courseId], references: [id])
+  courseId              Int
+  faculty               Faculty                 @relation(fields: [facultyId], references: [id])
+  facultyId             String                  @db.VarChar(4)
+  trainingField         TrainingField           @relation(fields: [trainingFieldId], references: [id])
+  trainingFieldId       Int
+}
+
+model Lecturer {
+  id            String        @id @db.VarChar(20)
+  name          String        @db.VarChar(100)
+  email         String        @db.VarChar()
+  numberPhone   String        @db.VarChar(15)
+  dob           String        @db.VarChar(10)
+  createdAt     DateTime      @default(now())
+  position      Position?     @relation(fields: [positionId], references: [id])
+  positionId    String?
+  moduleClasses ModuleClass[]
+  user          User          @relation(fields: [userId], references: [id])
+  userId        Int           @unique
+  faculty       Faculty       @relation(fields: [facultyId], references: [id])
+  facultyId     String        @db.VarChar(4)
+}
+
+model Faculty {
+  id             String          @id @db.VarChar(4)
+  name           String          @unique @db.VarChar()
+  address        String          @db.VarChar()
+  email          String          @db.VarChar()
+  numberPhone    String          @db.VarChar(15)
+  classes        Class[]
+  modules        Module[]
+  trainingFields TrainingField[]
+  students       Student[]
+  lecturers      Lecturer[]
+}
+
+model Course {
+  id                             Int                              @id @default(autoincrement())
+  name                           String                           @unique @db.VarChar(100)
+  students                       Student[]
+  classes                        Class[]
+  trainingFieldToCourse          TrainingFieldToCourse[]
+  trainingFieldToProgramToCourse TrainingFieldToProgramToCourse[]
+}
+
+model TrainingField {
+  id                             Int                              @id @default(autoincrement())
+  name                           String                           @unique @db.VarChar(50)
+  faculty                        Faculty                          @relation(fields: [facultyId], references: [id])
+  facultyId                      String
+  trainingSystem                 TrainingSystem                   @relation(fields: [trainingSystemId], references: [id])
+  trainingSystemId               Int
+  trainingType                   TrainingType                     @relation(fields: [trainingTypeId], references: [id])
+  trainingTypeId                 Int
+  trainingFieldToCourse          TrainingFieldToCourse[]
+  trainingFieldToProgramToCourse TrainingFieldToProgramToCourse[]
+  students                       Student[]
+}
+
+model TrainingSystem {
+  id             Int             @id @default(autoincrement())
+  name           String          @unique @db.VarChar(50)
+  trainingFields TrainingField[]
+  trainingTypes  TrainingType[]
+}
+
+model TrainingType {
+  id               Int             @id @default(autoincrement())
+  name             String          @unique @db.VarChar(50)
+  trainingFields   TrainingField[]
+  trainingSystem   TrainingSystem  @relation(fields: [trainingSystemId], references: [id])
+  trainingSystemId Int
+}
+
+model TrainingProgram {
+  id                             Int                              @id @default(autoincrement())
+  name                           String                           @unique @db.VarChar(100)
+  trainingFieldToProgramToCourse TrainingFieldToProgramToCourse[]
+}
+
+model TrainingFieldToCourse {
+  course          Course        @relation(fields: [courseId], references: [id])
+  courseId        Int
+  trainingField   TrainingField @relation(fields: [trainingFieldId], references: [id])
+  trainingFieldId Int
+
+  @@id([trainingFieldId, courseId])
+}
+
+model TrainingFieldToProgramToCourse {
+  trainingField     TrainingField   @relation(fields: [trainingFieldId], references: [id])
+  trainingFieldId   Int
+  trainingProgram   TrainingProgram @relation(fields: [trainingProgramId], references: [id])
+  trainingProgramId Int
+  course            Course          @relation(fields: [courseId], references: [id])
+  courseId          Int
+
+  @@id([trainingFieldId, trainingProgramId, courseId])
+}
+
+model Class {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique @db.VarChar(50)
+  course    Course    @relation(fields: [courseId], references: [id])
+  courseId  Int
+  faculty   Faculty   @relation(fields: [facultyId], references: [id])
+  facultyId String
+  students  Student[]
+}
+
+model AcademicYear {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique @db.VarChar(50)
+  semesters Semester[]
+}
+
+model Semester {
+  id             Int           @id @default(autoincrement())
+  name           String
+  academicYear   AcademicYear  @relation(fields: [academicYearId], references: [id])
+  academicYearId Int
+  moduleClasses  ModuleClass[]
+}
+
+model Module {
+  id            String        @id @db.VarChar(8)
+  name          String        @unique @db.VarChar(100)
+  credits       Int
+  faculty       Faculty       @relation(fields: [facultyId], references: [id])
+  facultyId     String
+  moduleClasses ModuleClass[]
+}
+
+model ModuleClass {
+  id            Int            @id @default(autoincrement())
+  semester      Semester       @relation(fields: [semesterId], references: [id])
+  semesterId    Int
+  schoolDay     Int
+  classStart    Int
+  classEnd      Int
+  startDate     DateTime
+  startEnd      DateTime
+  maximum       Int
+  testDate      DateTime?
+  createdAt     DateTime       @default(now())
+  lecturer      Lecturer       @relation(fields: [lecturerId], references: [id])
+  lecturerId    String
+  room          String?
+  module        Module         @relation(fields: [moduleId], references: [id])
+  moduleId      String
+  registrations Registration[]
+  tuitionFees   TuitionFee[]
+  moduleGrades  ModuleGrades[]
+}
+
+model Registration {
+  student       Student     @relation(fields: [studentId], references: [id])
+  studentId     String      @db.VarChar(20)
+  moduleClass   ModuleClass @relation(fields: [moduleClassId], references: [id])
+  moduleClassId Int
+
+  @@id([moduleClassId, studentId])
+}
+
+model TuitionFee {
+  id            Int         @id @default(autoincrement())
+  amount        Float
+  dueDate       DateTime
+  createdAt     DateTime    @default(now())
+  student       Student     @relation(fields: [studentId], references: [id])
+  studentId     String      @db.VarChar(20)
+  moduleClass   ModuleClass @relation(fields: [moduleClassId], references: [id])
+  moduleClassId Int
+}
+
+model ModuleGrades {
+  id                    Int                     @id @default(autoincrement())
+  moduleClass           ModuleClass             @relation(fields: [moduleClassId], references: [id])
+  moduleClassId         Int
+  name                  String
+  percentage            Int
+  studentToModuleGrades StudentToModuleGrades[]
+
+  @@unique([moduleClassId, name])
+}
+
+model StudentToModuleGrades {
+  scores         Int
+  moduleGrades   ModuleGrades @relation(fields: [moduleGradesId], references: [id])
+  moduleGradesId Int
+  student        Student      @relation(fields: [studentId], references: [id])
+  studentId      String       @db.VarChar(20)
+
+  @@id([studentId, moduleGradesId])
+}

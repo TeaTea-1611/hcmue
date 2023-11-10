@@ -1,0 +1,6 @@
+query StudentCreationFaculties {
+  faculties {
+    id
+    name
+  }
+}
