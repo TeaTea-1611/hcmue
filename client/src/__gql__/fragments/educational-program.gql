@@ -1,0 +1,21 @@
+fragment educationalProgram on EducationalProgram {
+  id
+  name
+  educationalField {
+    id
+    name
+    educationalSystem {
+      id
+      name
+      type
+    }
+    faculty {
+      id
+      name
+    }
+  }
+  course {
+    id
+    name
+  }
+}

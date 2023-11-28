@@ -1,0 +1,40 @@
+mutation CreateEducationalSystem(
+  $createEducationalSystemInput: CreateEducationalSystemInput!
+) {
+  createEducationalSystem(
+    createEducationalSystemInput: $createEducationalSystemInput
+  ) {
+    success
+    message
+    educationalSystem {
+      ...educationalSystem
+    }
+    errors {
+      ...fieldError
+    }
+  }
+}
+
+mutation UpdateEducationalSystem(
+  $updateEducationalSystemInput: UpdateEducationalSystemInput!
+) {
+  updateEducationalSystem(
+    updateEducationalSystemInput: $updateEducationalSystemInput
+  ) {
+    success
+    message
+    educationalSystem {
+      ...educationalSystem
+    }
+    errors {
+      ...fieldError
+    }
+  }
+}
+
+mutation RemoveEducationalSystem($removeEducationalSystemId: Int!) {
+  removeEducationalSystem(id: $removeEducationalSystemId) {
+    success
+    message
+  }
+}

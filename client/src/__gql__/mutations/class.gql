@@ -1,0 +1,32 @@
+mutation CreateClass($createClassInput: CreateClassInput!) {
+  createClass(createClassInput: $createClassInput) {
+    success
+    message
+    class {
+      ...class
+    }
+    errors {
+      ...fieldError
+    }
+  }
+}
+
+mutation UpdateClass($updateClassInput: UpdateClassInput!) {
+  updateClass(updateClassInput: $updateClassInput) {
+    success
+    message
+    class {
+      ...class
+    }
+    errors {
+      ...fieldError
+    }
+  }
+}
+
+mutation RemoveClass($removeClassId: Int!) {
+  removeClass(id: $removeClassId) {
+    success
+    message
+  }
+}

@@ -1,0 +1,32 @@
+mutation CreateLecturer($createLecturerInput: CreateLecturerAndAccountInput!) {
+  createLecturer(createLecturerInput: $createLecturerInput) {
+    success
+    message
+    lecturer {
+      ...lecturer
+    }
+    errors {
+      ...fieldError
+    }
+  }
+}
+
+mutation UpdateLecturer($updateLecturerInput: UpdateLecturerInput!) {
+  updateLecturer(updateLecturerInput: $updateLecturerInput) {
+    success
+    message
+    lecturer {
+      ...lecturer
+    }
+    errors {
+      ...fieldError
+    }
+  }
+}
+
+mutation RemoveLecturer($removeLecturerId: String!) {
+  removeLecturer(id: $removeLecturerId) {
+    success
+    message
+  }
+}

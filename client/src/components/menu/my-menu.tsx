@@ -1,10 +1,10 @@
+"use client";
 import {
   MeDocument,
   MeQuery,
-  UserInfoFragment,
+  UserFragment,
   useLogoutMutation,
-} from "@/generated/graphql";
-import { useAltKey } from "@/hooks/useKey";
+} from "@/__generated__/gql";
 import {
   CalendarDays,
   Contact,
@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -39,16 +39,14 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { deleteLocalStorageToken } from "@/services/auth.service";
 
 interface Props {
-  me?: UserInfoFragment | null;
+  me: UserFragment;
   className?: string;
 }
 
 const MyMenu: React.FC<Props> = ({ me, className }) => {
   const { theme, setTheme } = useTheme();
-  const router = useRouter();
   const [logout, { loading: logoutLoading, client }] = useLogoutMutation();
 
   const handleLogout = async () => {
@@ -58,15 +56,11 @@ const MyMenu: React.FC<Props> = ({ me, className }) => {
         update: (_cache, { data }) => {
           if (data?.logout) {
             client.resetStore();
-            deleteLocalStorageToken();
           }
         },
       });
     } catch (error) {}
   };
-
-  useAltKey("q", handleLogout);
-  useAltKey("l", () => router.push("/auth/login"));
 
   return (
     <DropdownMenu modal={false}>
@@ -77,54 +71,17 @@ const MyMenu: React.FC<Props> = ({ me, className }) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-72" align="end">
-        {me ? (
-          <>
-            <DropdownMenuLabel>
-              Tài khoản: {me.username} - {me.role.name}
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <User className="w-4 h-4 mr-2" />
-                <span>Hồ sơ</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Settings className="w-4 h-4 mr-2" />
-                <span>Cài đặt</span>
-              </DropdownMenuItem>
-              {me.role.id === "R01" ? (
-                <>
-                  <DropdownMenuItem asChild>
-                    <Link href={"/admin"}>
-                      <LayoutDashboard className="w-4 h-4 mr-2" />
-                      <span>Trang quản trị</span>
-                    </Link>
-                  </DropdownMenuItem>
-                </>
-              ) : (
-                <>
-                  <DropdownMenuItem>
-                    <FunctionSquare className="w-4 h-4 mr-2" />
-                    <span>Chương trình đào tạo</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <CalendarDays className="w-4 h-4 mr-2" />
-                    <span>Thời khóa biểu - Lịch thi</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <FilePieChart className="w-4 h-4 mr-2" />
-                    <span>Điểm số</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <CreditCard className="w-4 h-4 mr-2" />
-                    <span>Thanh toán học phí</span>
-                  </DropdownMenuItem>
-                </>
-              )}
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-          </>
-        ) : null}
+        <DropdownMenuLabel>
+          Tài khoản: {me.username} - {me.role}
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <Settings className="w-4 h-4 mr-2" />
+            <span>Cài đặt</span>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
@@ -164,27 +121,12 @@ const MyMenu: React.FC<Props> = ({ me, className }) => {
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
-          <DropdownMenuItem>
-            <MessageSquare className="w-4 h-4 mr-2" />
-            <span>Đóng góp ý kiến</span>
-          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        {me ? (
-          <DropdownMenuItem onClick={handleLogout}>
-            <LogOut className="w-4 h-4 mr-2" />
-            <span>Đăng xuất</span>
-            <DropdownMenuShortcut>⌘Q</DropdownMenuShortcut>
-          </DropdownMenuItem>
-        ) : (
-          <DropdownMenuItem onClick={() => {}} asChild>
-            <Link href={"/auth/login"}>
-              <LogIn className="w-4 h-4 mr-2" />
-              <span>Đăng nhập</span>
-              <DropdownMenuShortcut>⌘L</DropdownMenuShortcut>
-            </Link>
-          </DropdownMenuItem>
-        )}
+        <DropdownMenuItem onClick={handleLogout}>
+          <LogOut className="w-4 h-4 mr-2" />
+          <span>Đăng xuất</span>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -1,4 +1,0 @@
-fragment positionInfo on Position {
-  id
-  name
-}

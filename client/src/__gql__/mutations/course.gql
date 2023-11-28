@@ -1,0 +1,32 @@
+mutation CreateCourse($createCourseInput: CreateCourseInput!) {
+  createCourse(createCourseInput: $createCourseInput) {
+    success
+    message
+    course {
+      ...course
+    }
+    errors {
+      ...fieldError
+    }
+  }
+}
+
+mutation UpdateCourse($updateCourseInput: UpdateCourseInput!) {
+  updateCourse(updateCourseInput: $updateCourseInput) {
+    success
+    message
+    course {
+      ...course
+    }
+    errors {
+      ...fieldError
+    }
+  }
+}
+
+mutation RemoveCourse($removeCourseId: Int!) {
+  removeCourse(id: $removeCourseId) {
+    success
+    message
+  }
+}

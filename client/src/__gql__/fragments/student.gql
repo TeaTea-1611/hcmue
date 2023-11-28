@@ -1,0 +1,52 @@
+fragment student on Student {
+  id
+  fullName
+  dob
+  pob
+  gender
+  position
+  ethnicity
+  citizenIdentification
+  religion
+  targetGroup
+  region
+  priorityArea
+  partyMembershipStatus
+  joinDate
+  studentType
+  enrollmentStatus
+  city
+  district
+  country
+  permanentAddress
+  numberPhone
+  email
+  address
+  bankAccountNumber
+  bankName
+  registrations
+  user {
+    id
+    username
+  }
+  faculty {
+    id
+    name
+  }
+  course {
+    id
+    name
+  }
+  class {
+    id
+    name
+  }
+  educationalField {
+    id
+    name
+  }
+  educationalPrograms {
+    id
+    name
+  }
+}

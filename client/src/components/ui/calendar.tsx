@@ -28,8 +28,13 @@ function Calendar({
   const [selectedYear, setSelectedYear] = React.useState(month.getFullYear());
 
   const handleYearChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.value) {
+      setSelectedYear(1);
+      return;
+    }
     const newYear = parseInt(event.target.value, 10);
-    if (!isNaN(newYear)) {
+
+    if (!isNaN(newYear) && newYear < 10000) {
       setSelectedYear(newYear);
       setMonth(new Date(newYear, month.getMonth(), 1));
     }

@@ -1,0 +1,40 @@
+mutation CreateEducationalProgram(
+  $createEducationalProgramInput: CreateEducationalProgramInput!
+) {
+  createEducationalProgram(
+    createEducationalProgramInput: $createEducationalProgramInput
+  ) {
+    success
+    message
+    educationalProgram {
+      ...educationalProgram
+    }
+    errors {
+      ...fieldError
+    }
+  }
+}
+
+mutation UpdateEducationalProgram(
+  $updateEducationalProgramInput: UpdateEducationalProgramInput!
+) {
+  updateEducationalProgram(
+    updateEducationalProgramInput: $updateEducationalProgramInput
+  ) {
+    success
+    message
+    educationalProgram {
+      ...educationalProgram
+    }
+    errors {
+      ...fieldError
+    }
+  }
+}
+
+mutation RemoveEducationalProgram($removeEducationalProgramId: String!) {
+  removeEducationalProgram(id: $removeEducationalProgramId) {
+    success
+    message
+  }
+}

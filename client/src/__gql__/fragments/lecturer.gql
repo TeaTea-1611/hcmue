@@ -1,0 +1,32 @@
+fragment lecturer on Lecturer {
+  id
+  fullName
+  dob
+  pob
+  gender
+  ethnicity
+  citizenIdentification
+  religion
+  targetGroup
+  region
+  priorityArea
+  partyMembershipStatus
+  joinDate
+  city
+  district
+  country
+  permanentAddress
+  numberPhone
+  email
+  address
+  bankAccountNumber
+  bankName
+  user {
+    id
+    username
+  }
+  faculty {
+    id
+    name
+  }
+}

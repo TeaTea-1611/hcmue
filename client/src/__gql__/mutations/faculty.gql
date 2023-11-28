@@ -1,0 +1,32 @@
+mutation CreateFaculty($createFacultyInput: CreateFacultyInput!) {
+  createFaculty(createFacultyInput: $createFacultyInput) {
+    success
+    message
+    faculty {
+      ...faculty
+    }
+    errors {
+      ...fieldError
+    }
+  }
+}
+
+mutation UpdateFaculty($updateFacultyInput: UpdateFacultyInput!) {
+  updateFaculty(updateFacultyInput: $updateFacultyInput) {
+    success
+    message
+    faculty {
+      ...faculty
+    }
+    errors {
+      ...fieldError
+    }
+  }
+}
+
+mutation RemoveFaculty($removeFacultyId: Int!) {
+  removeFaculty(id: $removeFacultyId) {
+    success
+    message
+  }
+}

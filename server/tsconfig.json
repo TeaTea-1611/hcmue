@@ -1,18 +1,16 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "outDir": "dist",
-    "lib": ["es2020"],
-    "target": "es2020",
-    "module": "esnext",
-    "moduleResolution": "node",
+    "target": "es2016",
+    "module": "commonjs",
+    "outDir": "./dist",
     "esModuleInterop": true,
-    "types": ["node"],
+    "forceConsistentCasingInFileNames": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "skipLibCheck": true,
-    "paths": {
-      "@dist/*": ["src/*"]
-    }
+    "baseUrl": ".",
+    "moduleResolution": "node"
   },
-  "include": ["src/"],
-  "exclude": ["src/__tests__"]
+  "include": ["./src/**/*.ts"],
+  "exclude": ["node_modules"]
 }

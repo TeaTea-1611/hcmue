@@ -1,0 +1,5 @@
+query EducationalPrograms {
+  educationalPrograms {
+    ...educationalProgram
+  }
+}

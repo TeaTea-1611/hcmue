@@ -1,0 +1,4 @@
+fragment course on Course {
+  id
+  name
+}

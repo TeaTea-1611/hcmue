@@ -1,0 +1,5 @@
+query Classes {
+  classes {
+    ...class
+  }
+}

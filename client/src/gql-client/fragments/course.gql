@@ -1,4 +1,0 @@
-fragment courseInfo on Course {
-  id
-  name
-}

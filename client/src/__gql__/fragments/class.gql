@@ -1,0 +1,16 @@
+fragment class on Class {
+  id
+  name
+  faculty {
+    id
+    name
+  }
+  course {
+    id
+    name
+  }
+  academicAdvisor {
+    id
+    fullName
+  }
+}

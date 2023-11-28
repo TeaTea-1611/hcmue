@@ -1,6 +1,0 @@
-query Courses {
-  courses {
-    id
-    name
-  }
-}

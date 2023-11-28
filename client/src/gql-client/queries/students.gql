@@ -1,8 +1,0 @@
-query PaginatedStudents($pageIndex: Int, $take: Int, $studentId: String) {
-  paginatedStudents(pageIndex: $pageIndex, take: $take, studentId: $studentId) {
-    totalCount
-    students {
-      ...studentInfo
-    }
-  }
-}

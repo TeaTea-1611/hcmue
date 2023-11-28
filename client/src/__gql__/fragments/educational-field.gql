@@ -1,0 +1,13 @@
+fragment educationalField on EducationalField {
+  id
+  name
+  educationalSystem {
+    id
+    name
+    type
+  }
+  faculty {
+    id
+    name
+  }
+}

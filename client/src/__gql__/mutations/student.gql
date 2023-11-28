@@ -1,0 +1,32 @@
+mutation CreateStudent($createStudentInput: CreateStudentAndAccountInput!) {
+  createStudent(createStudentInput: $createStudentInput) {
+    success
+    message
+    student {
+      ...student
+    }
+    errors {
+      ...fieldError
+    }
+  }
+}
+
+mutation UpdateStudent($updateStudentInput: UpdateStudentInput!) {
+  updateStudent(updateStudentInput: $updateStudentInput) {
+    success
+    message
+    student {
+      ...student
+    }
+    errors {
+      ...fieldError
+    }
+  }
+}
+
+mutation RemoveStudent($removeStudentId: String!) {
+  removeStudent(id: $removeStudentId) {
+    success
+    message
+  }
+}

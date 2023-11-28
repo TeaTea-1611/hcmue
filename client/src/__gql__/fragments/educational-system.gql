@@ -1,0 +1,5 @@
+fragment educationalSystem on EducationalSystem {
+  id
+  name
+  type
+}

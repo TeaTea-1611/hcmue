@@ -1,4 +1,0 @@
-fragment classInfo on Class {
-  id
-  name
-}

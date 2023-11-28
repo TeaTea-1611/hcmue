@@ -1,0 +1,13 @@
+query Students($id: String, $take: Int, $pageIndex: Int) {
+  students(id: $id, take: $take, pageIndex: $pageIndex) {
+    students {
+      ...student
+    }
+    totalCount
+  }
+}
+query Student($studentId: String!) {
+  student(id: $studentId) {
+    ...student
+  }
+}

@@ -1,0 +1,5 @@
+query EducationalSystems {
+  educationalSystems {
+    ...educationalSystem
+  }
+}

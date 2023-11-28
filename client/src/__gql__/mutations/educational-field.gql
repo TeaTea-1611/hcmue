@@ -1,0 +1,40 @@
+mutation CreateEducationalField(
+  $createEducationalFieldInput: CreateEducationalFieldInput!
+) {
+  createEducationalField(
+    createEducationalFieldInput: $createEducationalFieldInput
+  ) {
+    success
+    message
+    educationalField {
+      ...educationalField
+    }
+    errors {
+      ...fieldError
+    }
+  }
+}
+
+mutation UpdateEducationalField(
+  $updateEducationalFieldInput: UpdateEducationalFieldInput!
+) {
+  updateEducationalField(
+    updateEducationalFieldInput: $updateEducationalFieldInput
+  ) {
+    success
+    message
+    educationalField {
+      ...educationalField
+    }
+    errors {
+      ...fieldError
+    }
+  }
+}
+
+mutation RemoveEducationalField($removeEducationalFieldId: String!) {
+  removeEducationalField(id: $removeEducationalFieldId) {
+    success
+    message
+  }
+}
