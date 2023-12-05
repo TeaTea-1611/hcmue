@@ -67,7 +67,7 @@ export const createApolloServer = async (
   await apolloServer.start();
 
   app.use(
-    "/graphql",
+    "/",
     cors<cors.CorsRequest>({
       origin: ["http://localhost:3000"],
       credentials: true,

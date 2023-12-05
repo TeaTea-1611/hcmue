@@ -122,28 +122,28 @@ export class EducationalProgramsResolver {
     }
   }
 
-  @Authorized([Role.Admin])
-  @Mutation(() => MutationResponse)
-  async removeEducationalProgram(
-    @Arg("id") id: string
-  ): Promise<MutationResponse> {
-    try {
-      const educationalProgram =
-        await this.educationalProgramRepository.findOneBy({ id });
-      if (!educationalProgram)
-        throw new Error("Chương trình đào tạo không tồn tại");
+  // @Authorized([Role.Admin])
+  // @Mutation(() => MutationResponse)
+  // async removeEducationalProgram(
+  //   @Arg("id") id: string
+  // ): Promise<MutationResponse> {
+  //   try {
+  //     const educationalProgram =
+  //       await this.educationalProgramRepository.findOneBy({ id });
+  //     if (!educationalProgram)
+  //       throw new Error("Chương trình đào tạo không tồn tại");
 
-      await dataSource.manager.remove(educationalProgram);
+  //     await dataSource.manager.remove(educationalProgram);
 
-      return {
-        success: true,
-        message: "Chương trình đào tạo được xóa thành công",
-      };
-    } catch (error) {
-      return {
-        success: false,
-        message: error.message,
-      };
-    }
-  }
+  //     return {
+  //       success: true,
+  //       message: "Chương trình đào tạo được xóa thành công",
+  //     };
+  //   } catch (error) {
+  //     return {
+  //       success: false,
+  //       message: error.message,
+  //     };
+  //   }
+  // }
 }

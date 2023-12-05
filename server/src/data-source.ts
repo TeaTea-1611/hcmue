@@ -18,11 +18,10 @@ export const dataSource = new DataSource({
   type: "postgres",
   host: "localhost",
   port: 5432,
-  username: "postgres",
-  password: "161102",
-  database: "university-management",
+  url: process.env.DB,
   synchronize: __prod__ ? false : true,
   logging: false,
+  ssl: true,
   entities: [
     User,
     Course,
